@@ -111,31 +111,34 @@ function showCard() {
   const card = document.createElement("div");
   card.className = "card";
 
-  const deleteButton = document.createElement("button");
-  deleteButton.textContent = "Delete";
-  deleteButton.addEventListener("click", function () {
-    deleteQuestion(question);
-  });
-
-  const editButton = document.createElement("button");
-  editButton.textContent = "Edit";
-  editButton.addEventListener("click", function () {
-    openEditDialog(question);
-  });
-
   const questionText = document.createElement("p");
   questionText.className = "question";
   questionText.textContent = question.q;
 
   const answerText = document.createElement("p");
   answerText.className = "answer hidden";
-  answerText.textContent = question.a;
+  answerText.textContent = "Answer: " + question.a;
 
-  questionText.addEventListener("click", function () {
+  const editButton = document.createElement("button");
+  editButton.textContent = "Edit";
+  editButton.addEventListener("click", function (event) {
+    openEditDialog(question);
+    event.stopPropagation(); // Don't show answer while trying to edit card.
+  });
+
+  const deleteButton = document.createElement("button");
+  deleteButton.textContent = "Delete";
+  deleteButton.addEventListener("click", function (event) {
+    deleteQuestion(question);
+    event.stopPropagation(); // Don't show answer on card while trying to delete.
+  });
+
+  // Decided to pull answer click event out to card element level as that feels like more natural interaction
+  card.addEventListener("click", function () {
     answerText.classList.toggle("hidden");
   });
 
-  card.append(deleteButton, editButton, questionText, answerText);
+  card.append(questionText, answerText, editButton, deleteButton);
   cardArea.append(card);
 }
 
