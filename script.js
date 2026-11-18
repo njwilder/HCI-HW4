@@ -140,6 +140,16 @@ function showCard() {
 
   card.append(questionText, answerText, editButton, deleteButton);
   cardArea.append(card);
+
+
+  // Card navigation
+  const prevCardButton = document.getElementById("prev-button");
+  prevCardButton.addEventListener("click", switchToPreviousCard);
+  const nextCardButton = document.getElementById("next-button");
+  nextCardButton.addEventListener("click", switchToNextCard);
+
+  const currentCardCounter = document.getElementById("counter");
+  currentCardCounter.textContent = "Card " + (currentIndex + 1) + " of " + questions.length;
 }
 
 
@@ -147,12 +157,24 @@ function showCard() {
 
 // TODO: Previous / Next. Write functions that change currentIndex to the appropriate value
 // (wrapping around at both ends) and then call showPage(). Then write event listeners to attach these
-// functions to the appropriate Previous/Next buttons. 
+// functions to the appropriate Previous/Next buttons.
 
 // TODO: Update the progress text ("Card 3 of 3") in the counter whenever the card changes.
 
-
 // ---------- Actions ----------
+
+function switchToPreviousCard() {
+  let prevCardIndex = currentIndex - 1;
+  if (prevCardIndex < 0) { prevCardIndex = questions.length - 1; }
+  currentIndex = prevCardIndex;
+  showPage();
+}
+function switchToNextCard() {
+  let nextCardIndex = currentIndex + 1;
+  if (nextCardIndex >= questions.length) { nextCardIndex = 0; }
+  currentIndex = nextCardIndex;
+  showPage();
+}
 
 async function deleteQuestion(question) {
   await apiSend("DELETE", "/delete/" + question.id);
@@ -180,6 +202,11 @@ document.querySelector("#update-button").addEventListener("click", async functio
 });
 
 document.querySelector("#add-button").addEventListener("click", async function () {
+  // Lazy but works
+  if (newQuestion.value === "" || newAnswer.value === "") {
+    return;
+  }
+
   await apiSend("POST", "/add", {
     question: newQuestion.value,
     answer: newAnswer.value

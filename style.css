@@ -76,6 +76,36 @@ body {
   border-radius: 6px;
 }
 
+#card-nav-container {
+  display: flex;
+  justify-content: center;
+  padding-top: 12px;
+  padding-bottom: 12px;
+}
+#card-nav-buttons {
+  display: inline-grid;
+  grid-auto-flow: column;
+  grid-auto-columns: 1fr;
+  gap: 50px;
+  justify-content: center;
+}
+#counter {
+  /* Jank css here */
+  /* padding-left: 14px; */
+  /* padding-right: 10px; */
+  /* padding-top: 10px; */
+  /* padding-bottom: 10px; */
+  padding: 10px 10px 10px 14px;
+}
+#prev-button {
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+#next-button {
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
 button {
   font-size: 14px;
   padding: 6px 12px;
